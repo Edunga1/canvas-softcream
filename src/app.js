@@ -1,4 +1,4 @@
-import Example from "./example.js";
+import Nozzle from "./nozzle.js";
 
 class App {
   constructor() {
@@ -7,7 +7,7 @@ class App {
     document.body.appendChild(this.canvas);
     window.addEventListener("resize", this.resize.bind(this));
 
-    this.example = new Example();
+    this.nozzle = new Nozzle();
     this.resize();
 
     requestAnimationFrame(this.animate.bind(this));
@@ -19,11 +19,11 @@ class App {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    this.example.resize(this.width, this.height);
+    this.nozzle.resize(this.width, this.height);
   }
 
   animate(t) {
-    this.example.update();
+    this.nozzle.update();
     this.draw();
   }
 
@@ -33,7 +33,7 @@ class App {
     this.context.fillRect(0, 0, this.width, this.height);
     this.context.fill();
 
-    this.example.draw(this.context);
+    this.nozzle.draw(this.context);
 
     requestAnimationFrame(this.animate.bind(this));
   }
