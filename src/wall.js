@@ -1,20 +1,15 @@
-import Point from "./point.js";
+import Unit from "./unit.js";
 
-export default class Wall {
+export default class Wall extends Unit {
   constructor() {
-    this.pos = new Point();
-    this.width = 200;
-    this.height = 50;
+    super({ width: 200, height: 50, isFixed: true });
   }
 
   resize(width, height) {
-    this.canvasHeight = height;
-    this.canvasWidth = width;
     this.pos.x = width / 2 - this.width / 2;
-    this.pos.y = height - this.height;
+    this.pos.y = height - this.height - 100;
+    super.resize(width, height);
   }
-
-  update() {}
 
   draw(ctx) {
     ctx.beginPath();

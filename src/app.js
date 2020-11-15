@@ -10,6 +10,7 @@ class App {
 
     this.nozzle = new Nozzle();
     this.wall = new Wall();
+    this.nozzle.addUnit(this.wall);
     this.resize();
 
     requestAnimationFrame(this.animate.bind(this));

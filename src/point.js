@@ -3,4 +3,9 @@ export default class Point {
     this.x = x;
     this.y = y;
   }
+
+  add(point) {
+    this.x += point.x;
+    this.y += point.y;
+  }
 }
