@@ -22,6 +22,15 @@ export default class Cream {
     ctx.closePath();
   }
 
+  collide(pos, width, height) {
+    return (
+      this.pos.x >= pos.x &&
+      this.pos.x <= pos.x + width &&
+      this.pos.y >= pos.y &&
+      this.pos.y <= pos.y + height
+    );
+  }
+
   get needToRemove() {
     return this.pos.y - 5 >= this.canvasHeight;
   }

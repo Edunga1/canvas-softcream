@@ -1,4 +1,5 @@
 import Nozzle from "./nozzle.js";
+import Wall from "./wall.js";
 
 class App {
   constructor() {
@@ -8,6 +9,7 @@ class App {
     window.addEventListener("resize", this.resize.bind(this));
 
     this.nozzle = new Nozzle();
+    this.wall = new Wall();
     this.resize();
 
     requestAnimationFrame(this.animate.bind(this));
@@ -20,10 +22,12 @@ class App {
     this.canvas.height = this.height;
 
     this.nozzle.resize(this.width, this.height);
+    this.wall.resize(this.width, this.height);
   }
 
   animate(t) {
     this.nozzle.update();
+    this.wall.update();
     this.draw();
   }
 
@@ -34,6 +38,7 @@ class App {
     this.context.fill();
 
     this.nozzle.draw(this.context);
+    this.wall.draw(this.context);
 
     requestAnimationFrame(this.animate.bind(this));
   }
