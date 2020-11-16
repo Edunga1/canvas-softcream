@@ -8,7 +8,6 @@ export default class Unit {
     width = 10,
     height = 10,
     isFixed = false,
-    isCenter = false,
   } = {}) {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
