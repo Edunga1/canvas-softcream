@@ -16,7 +16,7 @@ export default class Unit {
     this.pos = pos;
     this.pos2 = new Point(pos.x + width, pos.y + height);
     this.isFixed = isFixed;
-    this.movement = new Point(0, 1);
+    this.movement = new Point(0, 2);
   }
 
   update() {
@@ -35,34 +35,45 @@ export default class Unit {
   }
 
   /**
-   * @param {Unit} unit
+   * @param {Unit[]} units
    */
-  collide(unit) {
-    if (this === unit) {
+  collide(units) {
+    const adjacentUnits = units.filter(
+      (u) =>
+        this.pos.x < u.pos2.x &&
+        this.pos2.x > u.pos.x &&
+        this.pos.y < u.pos2.y &&
+        this.pos2.y > u.pos.y
+    );
+
+    if (adjacentUnits.length === 0) {
+      // 부유 상태
+      this.movement.x *= 0.8;
+      this.movement.y = 2;
       return;
     }
 
-    const isY = this.pos2.y >= unit.pos.y && this.pos2.y <= unit.pos2.y;
+    if (this.isFixed) {
+      return;
+    }
 
-    if (
-      this.movement.y > 0 &&
-      this.pos.x >= unit.pos.x &&
-      this.pos.x <= unit.pos2.x &&
-      isY
-    ) {
+    const minx = Math.min(...adjacentUnits.map((u) => u.pos.x));
+    const miny = Math.min(...adjacentUnits.map((u) => u.pos.y));
+    const maxx = Math.max(...adjacentUnits.map((u) => u.pos2.x));
+    const maxy = Math.max(...adjacentUnits.map((u) => u.pos2.y));
+    const pos = new Point(minx, miny);
+    const pos2 = new Point(maxx, maxy);
+    const isUp = this.pos2.y < pos2.y;
+
+    // 멈춰야 하는 경우
+    if (this.pos.x > pos.x && this.pos2.x < pos2.x) {
       this.movement.x = 0;
       this.movement.y = 0;
-    } else if (
-      this.movement.y > 0 &&
-      this.pos.x < unit.pos.x &&
-      this.pos2.x >= unit.pos.x &&
-      this.pos2.x <= unit.pos2.x &&
-      isY
-    ) {
-      this.movement.x -= 0.5;
+    }
+    // 미끄러짐
+    else if (this.movement.y > 0 && isUp) {
+      this.movement.x = this.pos.x < pos.x ? -0.5 : 0.5;
       this.movement.y = Math.max(this.movement.y * 0.95, 0.2);
-    } else {
-      this.movement.x *= 0.9;
     }
   }
 }

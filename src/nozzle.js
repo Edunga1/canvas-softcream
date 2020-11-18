@@ -8,7 +8,7 @@ export default class Nozzle {
     this.lastCreatedAt = new Date();
     /** @type {Unit[]} */
     this.units = [];
-    this.creamPeriod = 1000;
+    this.creamPeriod = 500;
   }
 
   resize(width, height) {
@@ -36,8 +36,8 @@ export default class Nozzle {
     const cream = new Cream({
       canvasHeight: this.canvasHeight,
       canvasWidth: this.canvasWidth,
-      width: 20,
-      height: 20,
+      width: 10,
+      height: 10,
       // pos: new Point(this.canvasWidth / 2 - 10, 0),
       pos: new Point(this.canvasWidth / 2 + (Math.random() - 0.5) * 20, 0),
     });
@@ -48,9 +48,10 @@ export default class Nozzle {
 
   checkCreamsColision() {
     this.units.forEach((c1) => {
-      this.units.forEach((c2) => {
-        c1.collide(c2);
-      });
+      const copy = [...this.units];
+      const idx = copy.indexOf(c1);
+      copy.splice(idx, 1);
+      c1.collide(copy);
     });
   }
 
