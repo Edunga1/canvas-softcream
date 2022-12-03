@@ -19,18 +19,33 @@ export default class Point {
     point,
   ) {
     return new Point(
-      this.x = point.x,
-      this.py = point.y,
+      this.x - point.x,
+      this.y - point.y,
     )
   }
 
+  /** magnitude of vector */
   mag() {
     return Math.sqrt(this.x ** 2 + this.y ** 2)
   }
 
   unit() {
     const mag = this.mag()
+    if (mag === 0) {
+      return new Point(0, 0)
+    }
     return new Point(this.x / mag, this.y / mag)
+  }
+
+  multiply(scalar = 1) {
+    return new Point(this.x * scalar, this.y * scalar)
+  }
+
+  dot(
+    /** @type Point */
+    point,
+  ) {
+    return this.x * point.x + this.y * point.y
   }
 
   toString() {

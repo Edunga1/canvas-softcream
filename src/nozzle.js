@@ -7,7 +7,7 @@ export default class Nozzle {
     this.lastCreatedAt = new Date();
     /** @type {Unit[]} */
     this.units = [];
-    this.creamPeriod = 500;
+    this.creamPeriod = 200;
   }
 
   resize(x, y) {

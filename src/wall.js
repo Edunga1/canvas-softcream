@@ -2,7 +2,7 @@ import Unit from "./unit.js";
 
 export default class Wall extends Unit {
   constructor() {
-    super({ width: 200, height: 50, isFixed: true });
+    super({ width: 100, height: 100, isFixed: true });
   }
 
   resize(width, height) {
