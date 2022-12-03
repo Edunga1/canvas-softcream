@@ -22,7 +22,7 @@ class App {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    this.nozzle.resize(this.width, this.height);
+    this.nozzle.resize(this.width / 2, 0);
     this.wall.resize(this.width, this.height);
   }
 

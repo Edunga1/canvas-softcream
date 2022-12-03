@@ -2,8 +2,9 @@ import Unit from "./unit.js";
 
 export default class Cream extends Unit {
   constructor(opts) {
-    super({ ...opts, isCenter: true });
+    super({ ...opts });
   }
+
   draw(ctx) {
     ctx.beginPath();
     ctx.strokeStyle = "#444";
@@ -22,9 +23,5 @@ export default class Cream extends Unit {
     ctx.fillRect(this.pos.x, this.pos.y, 3, 3);
     ctx.fill();
     ctx.closePath();
-  }
-
-  get needToRemove() {
-    return this.pos.y - this.width >= this.canvasHeight;
   }
 }

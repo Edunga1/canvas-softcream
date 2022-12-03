@@ -1,35 +1,33 @@
-import Point from "./point.js";
+import Point from "./physics/point.js";
 
 export default class Unit {
   constructor({
-    canvasWidth = 0,
-    canvasHeight = 0,
     pos = new Point(),
     width = 10,
     height = 10,
     isFixed = false,
-  } = {}) {
-    this.canvasWidth = canvasWidth;
-    this.canvasHeight = canvasHeight;
+  }) {
     this.width = width;
     this.height = height;
     this.pos = pos;
     this.pos2 = new Point(pos.x + width, pos.y + height);
     this.isFixed = isFixed;
     this.movement = new Point(0, 2);
+    this.friction = .05
+    this.elasticity = .5
+    this.acceleration = 0
   }
 
   update() {
     if (this.isFixed) return;
-    this.pos.add(this.movement);
+    this.pos = this.pos.add(this.movement);
     this.pos2.x = this.pos.x + this.width;
     this.pos2.y = this.pos.y + this.height;
+
+    // new code
   }
 
-  resize(width, height) {
-    this.canvasHeight = height;
-    this.canvasWidth = width;
-
+  resize() {
     this.pos2.x = this.pos.x + this.width;
     this.pos2.y = this.pos.y + this.height;
   }
@@ -75,5 +73,9 @@ export default class Unit {
       this.movement.x = this.pos.x < pos.x ? -0.5 : 0.5;
       this.movement.y = Math.max(this.movement.y * 0.95, 0.2);
     }
+  }
+
+  toString() {
+    return `w: ${this.width} / h: ${this.height} / pos(x,y): ${this.pos.toString()}`
   }
 }

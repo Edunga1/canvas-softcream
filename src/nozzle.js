@@ -1,27 +1,23 @@
 import Cream from "./cream.js";
-import Point from "./point.js";
+import Point from "./physics/point.js";
 
 export default class Nozzle {
   constructor() {
-    this.canvasHeight = 0;
-    this.canvasWidth = 0;
+    this.pos = new Point();
     this.lastCreatedAt = new Date();
     /** @type {Unit[]} */
     this.units = [];
     this.creamPeriod = 500;
   }
 
-  resize(width, height) {
-    this.canvasHeight = height;
-    this.canvasWidth = width;
+  resize(x, y) {
+    this.pos = new Point(x, y)
   }
 
   update() {
     this.createCream();
     this.checkCreamsColision();
     this.updateCreams();
-    // TODO: DEBUG
-    // console.log(this.units.length);
   }
 
   draw(ctx) {
@@ -33,13 +29,14 @@ export default class Nozzle {
     const diff = now - this.lastCreatedAt;
     if (diff < this.creamPeriod) return;
 
+    const creamStartPos = new Point(
+      this.pos.x + (Math.random() - 0.5) * 20,
+      this.pos.y,
+    )
     const cream = new Cream({
-      canvasHeight: this.canvasHeight,
-      canvasWidth: this.canvasWidth,
       width: 10,
       height: 10,
-      // pos: new Point(this.canvasWidth / 2 - 10, 0),
-      pos: new Point(this.canvasWidth / 2 + (Math.random() - 0.5) * 20, 0),
+      pos: creamStartPos,
     });
     this.units.push(cream);
 
@@ -57,10 +54,6 @@ export default class Nozzle {
 
   updateCreams() {
     this.units.forEach((x) => x.update());
-    for (let i = this.units.length - 1; i > 0; i--) {
-      if (!this.units[i].needToRemove) continue;
-      this.units.splice(i, 1);
-    }
   }
 
   addUnit(unit) {
