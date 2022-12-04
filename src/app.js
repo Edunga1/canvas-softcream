@@ -1,5 +1,5 @@
-import Nozzle from "./nozzle.js";
-import Wall from "./wall.js";
+import Nozzle from "./shapes/nozzle.js";
+import Wall from "./shapes/wall.js";
 
 class App {
   constructor() {
@@ -10,7 +10,6 @@ class App {
 
     this.nozzle = new Nozzle();
     this.wall = new Wall();
-    this.nozzle.addUnit(this.wall);
     this.resize();
 
     requestAnimationFrame(this.animate.bind(this));
