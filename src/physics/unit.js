@@ -29,6 +29,10 @@ export default class Unit {
     throw new Error("Implement this.")
   }
 
+  collideLine() {
+    throw new Error("Implement this.")
+  }
+
   toString() {
     return `pos(x,y): ${this.pos.toString()}`
   }

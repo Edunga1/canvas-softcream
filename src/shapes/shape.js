@@ -5,4 +5,7 @@ export default class Shape {
   getCircle() {
     throw new Error("Implement this.")
   }
+  getLine() {
+    throw new Error("Implement this.")
+  }
 }

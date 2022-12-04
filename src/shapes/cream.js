@@ -6,7 +6,7 @@ export default class Cream extends Shape {
   constructor({
     pos = new Point(0, 0),
     radius = 5,
-  }) {
+  } = {}) {
     super()
     this.circle = new Circle({
       radius: radius,
@@ -23,7 +23,6 @@ export default class Cream extends Shape {
 
   draw(ctx) {
     ctx.beginPath()
-    ctx.strokeStyle = "#444"
     ctx.arc(
       this.circle.pos.x,
       this.circle.pos.y,
@@ -31,6 +30,8 @@ export default class Cream extends Shape {
       0,
       2 * Math.PI
     )
+    ctx.strokeStyle = "#444"
+    ctx.lineWidth = 1
     ctx.stroke()
     ctx.closePath()
 

@@ -12,6 +12,9 @@ class App {
     this.wall = new Wall()
     this.resize()
 
+    this.circles = []
+    this.lines = []
+
     requestAnimationFrame(this.animate.bind(this))
   }
 
@@ -22,23 +25,41 @@ class App {
     this.canvas.height = this.height
 
     this.nozzle.resize(this.width / 2, 0)
-    this.wall.resize(this.width, this.height)
+    this.wall.resize(
+      this.width / 4,
+      this.height / 2,
+      this.width * 3 / 4,
+      this.height / 2,
+    )
   }
 
   animate(t) {
     this.nozzle.update()
+
+    this.collectShapes()
+
     this.updateCircles()
     this.draw()
   }
 
+  collectShapes() {
+    this.circles = this.nozzle.getCircles()
+    this.lines = [this.wall.getLine()]
+  }
+
   updateCircles() {
-    const circles = this.nozzle.getCircles()
-    circles.forEach(c1 => {
-      const targets = [...circles]
-      targets.splice(targets.indexOf(c1), 1)
-      targets.forEach(c2 => {
+    this.circles.forEach(c1 => {
+      const targetLines = [...this.lines]
+      targetLines.forEach(l => {
+        c1.collideLine(l)
+      })
+
+      const targetsCircles = [...this.circles]
+      targetsCircles.splice(targetsCircles.indexOf(c1), 1)
+      targetsCircles.forEach(c2 => {
         c1.collideCircle(c2)
       })
+
       c1.reposition()
     })
   }
