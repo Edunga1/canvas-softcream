@@ -11,10 +11,10 @@ export default class Circle extends Unit {
   }
 
   intersects(
-    /** @type Unit */
-    unit,
+    /** @type Circle */
+    circle,
   ) {
-    return this.radius + unit.radius >= unit.pos.subtr(this.pos).mag()
+    return this.radius + circle.radius >= circle.pos.subtr(this.pos).mag()
   }
 
   penetrationResolution(
@@ -47,14 +47,13 @@ export default class Circle extends Unit {
   }
 
   /**
-   * @param {Circle[]} circles
+   * @param {Circle} circle
    */
-  collideCircle(circles) {
+  collideCircle(circle) {
     if (this.isFixed) return
-    const intersectedUnits = circles.filter(u => this.intersects(u))
-    intersectedUnits.forEach((u) => {
-      this.penetrationResolution(u)
-      this.collideResolution(u)
-    })
+    if (!this.intersects(circle)) return
+
+    this.penetrationResolution(circle)
+    this.collideResolution(circle)
   }
 }

@@ -1,8 +1,10 @@
 import Cream from "./cream.js"
 import Point from "../physics/point.js"
+import ShapeCollection from "./collection.js"
 
-export default class Nozzle {
+export default class Nozzle extends ShapeCollection {
   constructor() {
+    super()
     this.pos = new Point()
     this.lastCreatedAt = new Date()
     /** @type {Cream[]} */
@@ -16,12 +18,14 @@ export default class Nozzle {
 
   update() {
     this.createCream()
-    this.checkCreamsColision()
-    this.updateCreams()
   }
 
   draw(ctx) {
     this.creams.forEach((x) => x.draw(ctx))
+  }
+
+  getCircles() {
+    return this.creams.map(c => c.circle)
   }
 
   createCream() {
@@ -40,18 +44,5 @@ export default class Nozzle {
     this.creams.push(cream)
 
     this.lastCreatedAt = now
-  }
-
-  checkCreamsColision() {
-    this.creams.forEach((c1) => {
-      const copy = [...this.creams]
-      const idx = copy.indexOf(c1)
-      copy.splice(idx, 1)
-      c1.collide(copy)
-    })
-  }
-
-  updateCreams() {
-    this.creams.forEach((x) => x.circle.update())
   }
 }

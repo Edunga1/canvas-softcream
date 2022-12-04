@@ -17,10 +17,6 @@ export default class Unit {
     this.inverseMass = 1 / this.mass
   }
 
-  update() {
-    this.reposition()
-  }
-
   reposition() {
     if (this.isFixed) return
     this.acceleration = this.acceleration.unit().multiply(this.accelerationScalar)

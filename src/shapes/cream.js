@@ -15,10 +15,10 @@ export default class Cream extends Shape {
   }
 
   collide(
-    /** @type {Cream[]} */
-    creams,
+    /** @type {Shape} */
+    shape,
   ) {
-    this.circle.collideCircle(creams.map((c) => c.circle))
+    this.circle.collideCircle(shape.circle)
   }
 
   draw(ctx) {
@@ -34,7 +34,7 @@ export default class Cream extends Shape {
     ctx.stroke()
     ctx.closePath()
 
-    // red dot for debugging
+    // a red dot for debugging
     const size = 3
     const offset = size / 2
     ctx.beginPath()
@@ -42,5 +42,9 @@ export default class Cream extends Shape {
     ctx.fillRect(this.circle.pos.x - offset, this.circle.pos.y - offset, size, size)
     ctx.fill()
     ctx.closePath()
+  }
+
+  getCircle() {
+    return this.circle
   }
 }
