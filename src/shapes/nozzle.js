@@ -1,11 +1,11 @@
 import Cream from "./cream.js"
-import Point from "../physics/point.js"
+import Vector from "../physics/vector.js"
 import ShapeCollection from "./collection.js"
 
 export default class Nozzle extends ShapeCollection {
   constructor() {
     super()
-    this.pos = new Point()
+    this.pos = new Vector()
     this.lastCreatedAt = new Date()
     /** @type {Cream[]} */
     this.creams = []
@@ -13,7 +13,7 @@ export default class Nozzle extends ShapeCollection {
   }
 
   resize(x, y) {
-    this.pos = new Point(x, y)
+    this.pos = new Vector(x, y)
   }
 
   update() {
@@ -33,7 +33,7 @@ export default class Nozzle extends ShapeCollection {
     const diff = now - this.lastCreatedAt
     if (diff < this.creamPeriod) return
 
-    const creamStartPos = new Point(
+    const creamStartPos = new Vector(
       this.pos.x + (Math.random() - 0.5) * 20,
       this.pos.y,
     )

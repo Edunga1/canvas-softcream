@@ -1,10 +1,10 @@
 import Circle from "../bodies/circle.js"
-import Point from "../physics/point.js"
+import Vector from "../physics/vector.js"
 import Shape from "./shape.js"
 
 export default class Cream extends Shape {
   constructor({
-    pos = new Point(0, 0),
+    pos = new Vector(0, 0),
     radius = 5,
   } = {}) {
     super()

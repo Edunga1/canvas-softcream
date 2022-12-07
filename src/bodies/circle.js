@@ -1,9 +1,9 @@
 import Unit from "../physics/unit.js"
-import Point from "../physics/point.js"
+import Vector from "../physics/vector.js"
 
 export default class Circle extends Unit {
   constructor({
-    pos = new Point(),
+    pos = new Vector(),
     radius,
   }) {
     super({ pos: pos, })

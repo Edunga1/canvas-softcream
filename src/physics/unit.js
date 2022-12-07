@@ -1,17 +1,17 @@
-import Point from "./point.js"
+import Vector from "./vector.js"
 
 export default class Unit {
   constructor({
-    pos = new Point(),
+    pos = new Vector(),
     isFixed = false,
   }) {
     this.pos = pos
     this.isFixed = isFixed
-    this.movement = new Point(0, 2)
+    this.movement = new Vector(0, 2)
     this.friction = .05
     this.elasticity = 1
-    this.velocity = new Point(0, 20)
-    this.acceleration = new Point(0, 0)
+    this.velocity = new Vector(0, 20)
+    this.acceleration = new Vector(0, 0)
     this.accelerationScalar = .05
     this.mass = 50
     this.inverseMass = 1 / this.mass

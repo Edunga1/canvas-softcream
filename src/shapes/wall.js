@@ -1,5 +1,5 @@
 import Line from "../bodies/line.js"
-import Point from "../physics/point.js"
+import Vector from "../physics/vector.js"
 import Shape from "./shape.js"
 
 export default class Wall extends Shape {
@@ -11,15 +11,15 @@ export default class Wall extends Shape {
   } = {}) {
     super()
     this.line = new Line({
-      start: new Point(x1, y1),
-      end: new Point(x2, y2),
+      start: new Vector(x1, y1),
+      end: new Vector(x2, y2),
     })
   }
 
   resize(x1, y1, x2, y2) {
     this.line.resize(
-      new Point(x1, y1),
-      new Point(x2, y2),
+      new Vector(x1, y1),
+      new Vector(x2, y2),
     )
   }
 
