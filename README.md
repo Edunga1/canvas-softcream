@@ -2,9 +2,24 @@
 
 repository for canvas practice.
 
-# Running
+# Run the server to development.
 
-Run the below command to start http HTTP server and go to `localhost:8000`
+`live-server` is a server has live reload capability.
+
+installation:
+```bash
+npm install -g live-server
 ```
-python -m SimpleHTTPServer 8000
+
+then run:
+```bash
+live-server
+```
+
+browser will open or go to `http://localhost:8080`.
+
+if you don't need to reload when file changes:
+
+```bash
+python -m SimpleHTTPServer 8080
 ```
