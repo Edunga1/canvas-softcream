@@ -5,6 +5,7 @@ import ShapeCollection from "./collection.js"
 export default class Nozzle extends ShapeCollection {
   constructor() {
     super()
+    this.capacity = 100
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
     /** @type {Cream[]} */
@@ -17,7 +18,8 @@ export default class Nozzle extends ShapeCollection {
   }
 
   update() {
-    this.createCream()
+    this.createCreams()
+    this.removeCreams()
   }
 
   draw(ctx) {
@@ -28,11 +30,7 @@ export default class Nozzle extends ShapeCollection {
     return this.creams.map(c => c.circle)
   }
 
-  createCream() {
-    const now = new Date()
-    const diff = now - this.lastCreatedAt
-    if (diff < this.creamPeriod) return
-
+  addCream() {
     const creamStartPos = new Vector(
       this.pos.x + (Math.random() - 0.5) * 20,
       this.pos.y,
@@ -43,6 +41,22 @@ export default class Nozzle extends ShapeCollection {
     })
     this.creams.push(cream)
 
+  }
+
+  removeCream(index = 0, count = 1) {
+    this.creams.splice(index, count)
+  }
+
+  createCreams() {
+    const now = new Date()
+    const diff = now - this.lastCreatedAt
+    if (diff < this.creamPeriod) return
     this.lastCreatedAt = now
+    this.addCream()
+  }
+
+  removeCreams() {
+    if (this.creams.length < this.capacity) return
+    this.removeCream()
   }
 }

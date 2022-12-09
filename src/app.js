@@ -15,6 +15,7 @@ class App {
     this.circles = []
     this.lines = []
 
+    Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
   }
 
