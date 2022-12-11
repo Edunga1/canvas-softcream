@@ -1,19 +1,27 @@
 import Nozzle from "./shapes/nozzle.js"
 import Wall from "./shapes/wall.js"
+import Unit from "./physics/unit.js"
 
 class App {
   constructor() {
     this.canvas = document.createElement("canvas")
+    /** @type CanvasRenderingContext2D */
     this.context = this.canvas.getContext("2d")
     document.body.appendChild(this.canvas)
     window.addEventListener("resize", this.resize.bind(this))
+    this.canvas.addEventListener("mouseover", this.onMouseOverCanvas.bind(this))
 
     this.nozzle = new Nozzle()
     this.wall = new Wall()
     this.resize()
 
+    /** @type Circle[] */
     this.circles = []
+    /** @type Line[] */
     this.lines = []
+
+    this.mouseX = 0
+    this.mouseY = 0
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
@@ -90,6 +98,17 @@ class App {
     })
 
     requestAnimationFrame(this.animate.bind(this))
+  }
+
+  onMouseOverCanvas(
+    /** @type MouseEvent */
+    event,
+  ) {
+    const units = this.circles.concat(this.lines)
+    console.log(event.offsetX, event.offsetY)
+    const found = units.filter(u => this.context.isPointInPath(u, event.offsetX, event.offsetY))
+    console.log(found)
+    //this.context.fillText(unit.toString(), this.mouseX, this.mouseY)
   }
 }
 

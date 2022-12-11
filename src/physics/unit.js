@@ -36,6 +36,14 @@ export default class Unit {
   }
 
   toString() {
-    return `pos(x,y): ${this.pos.toString()}`
+    return `
+    pos: ${this.pos.toString()}
+    friction: ${this.friction}
+    elasticity: ${this.elasticity}
+    velocity: ${this.velocity.toString()}
+    acceleration: ${this.acceleration.toString()}
+    accelerationScalar: ${this.accelerationScalar}
+    mass: ${this.mass}
+    `
   }
 }

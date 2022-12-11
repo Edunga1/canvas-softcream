@@ -42,4 +42,8 @@ export default class Cream extends Shape {
   getCircle() {
     return this.circle
   }
+
+  toString() {
+    return this.circle.toString()
+  }
 }

@@ -115,4 +115,11 @@ export default class Circle extends Unit {
     this.penetrationResolutionLine(line)
     this.collideResolutionLine(line)
   }
+
+  //toString() {
+  //  return `
+  //  su
+  //  radius: ${this}
+  //  `
+  //}
 }
