@@ -9,9 +9,9 @@ export default class Unit {
     this.isFixed = isFixed
     this.friction = .05
     this.elasticity = 1
-    this.velocity = new Vector(0, 20)
-    this.acceleration = new Vector(0, 0)
-    this.accelerationScalar = .05
+    this.velocity = new Vector(0, 0)
+    this.acceleration = new Vector(0, 1)
+    this.accelerationScalar = .03
     this.mass = 50
     this.inverseMass = 1 / this.mass
   }
