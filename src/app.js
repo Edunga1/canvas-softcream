@@ -76,15 +76,16 @@ class App {
 
 
     // Debug line to circle
-    const firstCircle = this.nozzle.creams?.at(0).circle
-    const point = firstCircle.closestLinePoint(this.wall.line)
-    this.context.beginPath()
-    this.context.moveTo(point.x, point.y)
-    this.context.lineTo(firstCircle.pos.x, firstCircle.pos.y)
-    this.context.strokeStyle = "#00F"
-    this.context.lineWidth = 2
-    this.context.stroke()
-    this.context.closePath()
+    this.nozzle.creams.map(c => c.circle).forEach(circle => {
+      const point = circle.closestLinePoint(this.wall.line)
+      this.context.beginPath()
+      this.context.moveTo(point.x, point.y)
+      this.context.lineTo(circle.pos.x, circle.pos.y)
+      this.context.strokeStyle = "#00F"
+      this.context.lineWidth = 2
+      this.context.stroke()
+      this.context.closePath()
+    })
 
     requestAnimationFrame(this.animate.bind(this))
   }

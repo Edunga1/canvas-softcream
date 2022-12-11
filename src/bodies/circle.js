@@ -5,7 +5,7 @@ import Line from "./line.js"
 export default class Circle extends Unit {
   constructor({
     pos = new Vector(),
-    radius,
+    radius = 5,
   }) {
     super({ pos: pos, })
     this.radius = radius
@@ -18,10 +18,51 @@ export default class Circle extends Unit {
     return this.radius + circle.radius >= circle.pos.subtr(this.pos).mag()
   }
 
+  penetrationResolutionCircle(
+    /** @type Circle */
+    circle,
+  ) {
+    const dist = this.pos.subtr(circle.pos)
+    // penetration depth
+    const depth = this.radius + circle.radius - dist.mag()
+    const penetrationRes = dist.unit().multiply(depth / (this.inverseMass + circle.inverseMass))
+    this.pos = this.pos.add(penetrationRes.multiply(this.inverseMass))
+  }
+
+  collideResolutionCircle(
+    /** @type Unit */
+    unit,
+  ) {
+    const normal = this.pos.subtr(unit.pos).unit()
+    const relativeVelocity = this.velocity.subtr(unit.velocity)
+    const separatingVelocity = relativeVelocity.dot(normal)
+    const newSepVel = -separatingVelocity * Math.min(this.elasticity, unit.elasticity)
+
+    const vsepDiff = newSepVel - separatingVelocity
+
+    const impulse = vsepDiff / (this.inverseMass + unit.inverseMass)
+    const impulseVector = normal.multiply(impulse)
+
+    this.velocity = this.velocity.add(impulseVector.multiply(this.inverseMass))
+  }
+
+  /**
+   * @param {Circle} circle
+   */
+  collideCircle(circle) {
+    if (this.isFixed) return
+    if (!this.intersectsCircle(circle)) return
+
+    this.penetrationResolutionCircle(circle)
+    this.collideResolutionCircle(circle)
+  }
+
   intersectsLine(
     /** @type Line */
     line,
   ) {
+    const ballToClosest = this.closestLinePoint(line).subtr(this.pos)
+    return ballToClosest.mag() <= this.radius
   }
 
   closestLinePoint(
@@ -46,44 +87,23 @@ export default class Circle extends Unit {
     return line.start.subtr(closestVect)
   }
 
-  penetrationResolution(
-    /** @type Unit */
-    unit,
+  penetrationResolutionLine(
+    /** @type Line */
+    line,
   ) {
-    const dist = this.pos.subtr(unit.pos)
-    // penetration depth
-    const depth = this.radius + unit.radius - dist.mag()
-    // may be resilient?
-    const penetrationRes = dist.unit().multiply(depth / (this.inverseMass + unit.inverseMass))
-    this.pos = this.pos.add(penetrationRes.multiply(this.inverseMass))
+    const penVect = this.pos.subtr(this.closestLinePoint(line))
+    this.pos = this.pos.add(penVect.unit().multiply(this.radius - penVect.mag()))
   }
 
-  collideResolution(
-    /** @type Unit */
-    unit,
+  collideResolutionLine(
+    /** @type Line */
+    line,
   ) {
-    const normal = this.pos.subtr(unit.pos).unit()
-    const relativeVelocity = this.velocity.subtr(unit.velocity)
-    const separatingVelocity = relativeVelocity.dot(normal)
-    const newSepVel = -separatingVelocity * Math.min(this.elasticity, unit.elasticity)
-
-    const vsepDiff = newSepVel - separatingVelocity
-
-    const impulse = vsepDiff / (this.inverseMass + unit.inverseMass)
-    const impulseVector = normal.multiply(impulse)
-
-    this.velocity = this.velocity.add(impulseVector.multiply(this.inverseMass))
-  }
-
-  /**
-   * @param {Circle} circle
-   */
-  collideCircle(circle) {
-    if (this.isFixed) return
-    if (!this.intersectsCircle(circle)) return
-
-    this.penetrationResolution(circle)
-    this.collideResolution(circle)
+    const normal = this.pos.subtr(this.closestLinePoint(line)).unit()
+    const separatingVelocity = this.velocity.dot(normal)
+    const newSepratingVelcotiy = -separatingVelocity * this.elasticity
+    const vsepDiff = separatingVelocity - newSepratingVelcotiy
+    this.velocity = this.velocity.add(normal.multiply(-vsepDiff))
   }
 
   /**
@@ -92,6 +112,7 @@ export default class Circle extends Unit {
   collideLine(line) {
     if (this.isFixed) return
     if (!this.intersectsLine(line)) return
-    // TODO
+    this.penetrationResolutionLine(line)
+    this.collideResolutionLine(line)
   }
 }
