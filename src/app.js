@@ -30,7 +30,7 @@ class App {
       this.width / 4,
       this.height / 2,
       this.width * 3 / 4,
-      this.height / 2,
+      this.height / 3,
     )
   }
 
@@ -73,6 +73,18 @@ class App {
 
     this.nozzle.draw(this.context)
     this.wall.draw(this.context)
+
+
+    // Debug line to circle
+    const firstCircle = this.nozzle.creams?.at(0).circle
+    const point = firstCircle.closestLinePoint(this.wall.line)
+    this.context.beginPath()
+    this.context.moveTo(point.x, point.y)
+    this.context.lineTo(firstCircle.pos.x, firstCircle.pos.y)
+    this.context.strokeStyle = "#00F"
+    this.context.lineWidth = 2
+    this.context.stroke()
+    this.context.closePath()
 
     requestAnimationFrame(this.animate.bind(this))
   }

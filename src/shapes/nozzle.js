@@ -5,7 +5,7 @@ import ShapeCollection from "./collection.js"
 export default class Nozzle extends ShapeCollection {
   constructor() {
     super()
-    this.capacity = 100
+    this.capacity = 50
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
     /** @type {Cream[]} */

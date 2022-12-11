@@ -11,6 +11,10 @@ export default class Line extends Unit {
     this.end = end
   }
 
+  unit() {
+    return this.end.subtr(this.start).unit()
+  }
+
   resize(
     start = new Vector(),
     end = new Vector(),

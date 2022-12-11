@@ -1,5 +1,6 @@
 import Unit from "../physics/unit.js"
 import Vector from "../physics/vector.js"
+import Line from "./line.js"
 
 export default class Circle extends Unit {
   constructor({
@@ -21,7 +22,28 @@ export default class Circle extends Unit {
     /** @type Line */
     line,
   ) {
-    // TODO
+  }
+
+  closestLinePoint(
+    /** @type Line */
+    line,
+  ) {
+    const circleToLineStart = line.start.subtr(this.pos)
+    const crossToLineStart = line.unit().dot(circleToLineStart)
+
+    if (crossToLineStart > 0) {
+      return line.start
+    }
+
+    const lineEndToCircle = this.pos.subtr(line.end)
+    const crossToLineEnd = line.unit().dot(lineEndToCircle)
+
+    if (crossToLineEnd > 0) {
+      return line.end
+    }
+
+    const closestVect = line.unit().multiply(crossToLineStart)
+    return line.start.subtr(closestVect)
   }
 
   penetrationResolution(

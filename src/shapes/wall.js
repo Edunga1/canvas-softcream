@@ -31,8 +31,8 @@ export default class Wall extends Shape {
     ctx.beginPath()
     ctx.moveTo(this.line.start.x, this.line.start.y)
     ctx.lineTo(this.line.end.x, this.line.end.y)
-    ctx.strokeStyle = "#FFF"
-    ctx.lineWidth = 5
+    ctx.strokeStyle = "#000"
+    ctx.lineWidth = 2
     ctx.stroke()
     ctx.closePath()
   }
