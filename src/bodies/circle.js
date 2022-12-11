@@ -9,6 +9,7 @@ export default class Circle extends Unit {
   }) {
     super({ pos: pos, })
     this.radius = radius
+    this.elasticity = .5
   }
 
   intersectsCircle(

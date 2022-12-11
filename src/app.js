@@ -82,9 +82,11 @@ class App {
       this.context.moveTo(point.x, point.y)
       this.context.lineTo(circle.pos.x, circle.pos.y)
       this.context.strokeStyle = "#00F"
-      this.context.lineWidth = 2
+      this.context.lineWidth = 1
+      this.context.setLineDash([1, 3])
       this.context.stroke()
       this.context.closePath()
+      this.context.setLineDash([])
     })
 
     requestAnimationFrame(this.animate.bind(this))

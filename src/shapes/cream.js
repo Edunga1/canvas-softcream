@@ -34,15 +34,6 @@ export default class Cream extends Shape {
     ctx.lineWidth = 1
     ctx.stroke()
     ctx.closePath()
-
-    // a red dot for debugging
-    const size = 3
-    const offset = size / 2
-    ctx.beginPath()
-    ctx.fillStyle = "red"
-    ctx.fillRect(this.circle.pos.x - offset, this.circle.pos.y - offset, size, size)
-    ctx.fill()
-    ctx.closePath()
   }
 
   getCircle() {

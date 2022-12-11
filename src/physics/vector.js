@@ -37,7 +37,10 @@ export default class Vector {
     return new Vector(this.x / mag, this.y / mag)
   }
 
-  multiply(scalar = 1) {
+  multiply(
+    /** @type number */
+    scalar,
+  ) {
     return new Vector(this.x * scalar, this.y * scalar)
   }
 

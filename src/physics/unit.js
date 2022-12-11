@@ -7,7 +7,6 @@ export default class Unit {
   }) {
     this.pos = pos
     this.isFixed = isFixed
-    this.movement = new Vector(0, 2)
     this.friction = .05
     this.elasticity = 1
     this.velocity = new Vector(0, 20)
