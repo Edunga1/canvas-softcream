@@ -10,7 +10,7 @@ export default class Nozzle extends ShapeCollection {
     this.lastCreatedAt = new Date()
     /** @type {Cream[]} */
     this.creams = []
-    this.creamPeriod = 200
+    this.creamPeriod = 1000
   }
 
   resize(x, y) {

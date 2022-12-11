@@ -13,7 +13,10 @@ export default class Unit {
     this.acceleration = new Vector(0, 1)
     this.accelerationScalar = .03
     this.mass = 50
-    this.inverseMass = 1 / this.mass
+  }
+
+  get inverseMass() {
+    return 1 / this.mass
   }
 
   reposition() {

@@ -14,6 +14,7 @@ export default class Cream extends Shape {
     })
     this.circle.elasticity = .05
     this.circle.velocity = new Vector(0, 2)
+    this.circle.mass = 1
   }
 
   collide(
