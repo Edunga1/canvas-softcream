@@ -1,6 +1,7 @@
 import Nozzle from "./shapes/nozzle.js"
 import Wall from "./shapes/wall.js"
-import Unit from "./physics/unit.js"
+import Vector from "./physics/vector.js"
+import Circle from "./bodies/circle.js"
 
 class App {
   constructor() {
@@ -9,7 +10,7 @@ class App {
     this.context = this.canvas.getContext("2d")
     document.body.appendChild(this.canvas)
     window.addEventListener("resize", this.resize.bind(this))
-    this.canvas.addEventListener("mouseover", this.onMouseOverCanvas.bind(this))
+    this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this))
 
     this.nozzle = new Nozzle()
     this.wall = new Wall()
@@ -20,8 +21,8 @@ class App {
     /** @type Line[] */
     this.lines = []
 
-    this.mouseX = 0
-    this.mouseY = 0
+    /** @type Circle */
+    this.focusingCircle = null
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
@@ -97,18 +98,25 @@ class App {
       this.context.setLineDash([])
     })
 
+    // Focusing
+    if (this.focusingCircle) {
+      this.context.font = "20pt"
+      this.context.fillStyle = "#000"
+      this.focusingCircle.toString().split("\n").forEach((line, idx) => {
+        this.context.fillText(line, 50, 50 + idx * 20)
+      })
+    }
+
     requestAnimationFrame(this.animate.bind(this))
   }
 
-  onMouseOverCanvas(
+  onMouseMove(
     /** @type MouseEvent */
     event,
   ) {
-    const units = this.circles.concat(this.lines)
-    console.log(event.offsetX, event.offsetY)
-    const found = units.filter(u => this.context.isPointInPath(u, event.offsetX, event.offsetY))
-    console.log(found)
-    //this.context.fillText(unit.toString(), this.mouseX, this.mouseY)
+    const pos = new Vector(event.offsetX, event.offsetY)
+    const point = new Circle({ pos, radius: 1 })
+    this.focusingCircle = this.circles.filter(c => c.intersectsCircle(point))?.[0]
   }
 }
 
