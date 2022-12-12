@@ -2,6 +2,8 @@
 
 repository for canvas practice.
 
+![snapshot 20221212](docs/snapshot.gif)
+
 # Run the server to development.
 
 `live-server` is a server has live reload capability.
