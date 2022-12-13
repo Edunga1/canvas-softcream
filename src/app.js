@@ -2,6 +2,7 @@ import Nozzle from "./shapes/nozzle.js"
 import Wall from "./shapes/wall.js"
 import Vector from "./physics/vector.js"
 import Circle from "./bodies/circle.js"
+import UnitPropertyPrinter from "./gui/unit-printer.js"
 
 class App {
   constructor() {
@@ -10,7 +11,11 @@ class App {
     this.context = this.canvas.getContext("2d")
     document.body.appendChild(this.canvas)
     window.addEventListener("resize", this.resize.bind(this))
+
+    // mouse events
+    this.mouseMoveEnabled = true
     this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this))
+    this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this))
 
     this.nozzle = new Nozzle()
     this.wall = new Wall()
@@ -21,8 +26,7 @@ class App {
     /** @type Line[] */
     this.lines = []
 
-    /** @type Circle */
-    this.focusingCircle = null
+    this.unitPrinter = new UnitPropertyPrinter()
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
@@ -43,7 +47,7 @@ class App {
     )
   }
 
-  animate(t) {
+  animate() {
     this.nozzle.update()
 
     this.collectShapes()
@@ -83,7 +87,6 @@ class App {
     this.nozzle.draw(this.context)
     this.wall.draw(this.context)
 
-
     // Debug line to circle
     this.nozzle.creams.map(c => c.circle).forEach(circle => {
       const point = circle.closestLinePoint(this.wall.line)
@@ -98,25 +101,35 @@ class App {
       this.context.setLineDash([])
     })
 
-    // Focusing
-    if (this.focusingCircle) {
-      this.context.font = "20pt"
-      this.context.fillStyle = "#000"
-      this.focusingCircle.toString().split("\n").forEach((line, idx) => {
-        this.context.fillText(line, 50, 50 + idx * 20)
-      })
-    }
+    this.unitPrinter.draw(this.context)
 
     requestAnimationFrame(this.animate.bind(this))
+  }
+
+  updateUnitPrinter(pos) {
+    const point = new Circle({ pos, radius: 1 })
+    const found = this.circles.filter(c => c.intersectsCircle(point))?.[0]
+    this.unitPrinter.unit = found
+    return !!found
   }
 
   onMouseMove(
     /** @type MouseEvent */
     event,
   ) {
+    if (!this.mouseMoveEnabled) return
+
     const pos = new Vector(event.offsetX, event.offsetY)
-    const point = new Circle({ pos, radius: 1 })
-    this.focusingCircle = this.circles.filter(c => c.intersectsCircle(point))?.[0]
+    this.updateUnitPrinter(pos)
+  }
+
+  onMouseUp(
+    /** @type MouseEvent */
+    event,
+  ) {
+    const pos = new Vector(event.offsetX, event.offsetY)
+    const res = this.updateUnitPrinter(pos)
+    this.mouseMoveEnabled = !res
   }
 }
 
