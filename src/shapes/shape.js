@@ -1,12 +1,11 @@
 export default class Shape {
-  // TODO: Shape, ShapeCollection
   draw() {
     throw new Error("Implement this.")
   }
-  getCircle() {
+  getCircles() {
     throw new Error("Implement this.")
   }
-  getLine() {
+  getLines() {
     throw new Error("Implement this.")
   }
 }

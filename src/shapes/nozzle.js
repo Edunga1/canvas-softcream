@@ -1,8 +1,8 @@
 import Cream from "./cream.js"
 import Vector from "../physics/vector.js"
-import ShapeCollection from "./collection.js"
+import Shape from "./shape.js"
 
-export default class Nozzle extends ShapeCollection {
+export default class Nozzle extends Shape {
   constructor() {
     super()
     this.capacity = 200

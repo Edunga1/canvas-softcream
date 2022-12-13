@@ -54,7 +54,7 @@ class App {
 
   collectShapes() {
     this.circles = this.nozzle.getCircles()
-    this.lines = [this.wall.getLine()]
+    this.lines = [this.wall.getLines()]
   }
 
   updateCircles() {

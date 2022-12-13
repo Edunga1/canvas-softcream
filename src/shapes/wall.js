@@ -23,7 +23,7 @@ export default class Wall extends Shape {
     )
   }
 
-  getLine() {
+  getLines() {
     return this.line
   }
 
