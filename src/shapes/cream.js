@@ -12,9 +12,13 @@ export default class Cream extends Shape {
       radius: radius,
       pos: pos,
     })
-    this.circle.elasticity = .05
+    this.circle.elasticity = .01
     this.circle.velocity = new Vector(0, 2)
     this.circle.mass = 1
+    this.circle.friction = .15
+    this.exaggeration = 1.25
+    /** @type Cream */
+    this.next = null
   }
 
   collide(
@@ -29,14 +33,16 @@ export default class Cream extends Shape {
     ctx.arc(
       this.circle.pos.x,
       this.circle.pos.y,
-      this.circle.radius,
+      this.circle.radius * this.exaggeration,
       0,
       2 * Math.PI
     )
-    ctx.strokeStyle = "#444"
+    ctx.strokeStyle = "#FFF"
+    ctx.fillStyle = "#FFF"
     ctx.lineWidth = 1
     ctx.stroke()
     ctx.closePath()
+    ctx.fill()
   }
 
   getCircle() {

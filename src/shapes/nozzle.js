@@ -8,9 +8,11 @@ export default class Nozzle extends Shape {
     this.capacity = 200
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
-    /** @type {Cream[]} */
+    /** @type Cream[] */
     this.creams = []
-    this.creamPeriod = 1000
+    this.creamPeriod = 700
+    /** @type Cream */
+    this.lastCream = null
   }
 
   resize(x, y) {
@@ -39,8 +41,11 @@ export default class Nozzle extends Shape {
       pos: creamStartPos,
       radius: 10,
     })
+    if (this.lastCream != null) {
+      this.lastCream.next = cream
+    }
     this.creams.push(cream)
-
+    this.lastCream = cream
   }
 
   removeCream(index = 0, count = 1) {
