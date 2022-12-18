@@ -43,7 +43,7 @@ class App {
       this.width / 4,
       this.height / 2,
       this.width * 3 / 4,
-      this.height / 3,
+      this.height / 2,
     )
   }
 
