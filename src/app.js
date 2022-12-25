@@ -53,6 +53,7 @@ class App {
     this.collectShapes()
 
     this.updateCircles()
+    this.removeOuted()
     this.draw()
   }
 
@@ -76,6 +77,11 @@ class App {
 
       c1.reposition()
     })
+  }
+
+  removeOuted() {
+    const outed = this.nozzle.creams.filter(c => c.circle.pos.y + c.circle.radius > this.height)
+    outed.forEach(c => this.nozzle.removeCreamOf(c))
   }
 
   draw() {

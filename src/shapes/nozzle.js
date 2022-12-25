@@ -52,6 +52,15 @@ export default class Nozzle extends Shape {
     this.creams.splice(index, count)
   }
 
+  removeCreamOf(
+    /** @type Cream */
+    cream,
+  ) {
+    const index = this.creams.indexOf(cream)
+    if (index == -1) return
+    this.removeCream(index)
+  }
+
   createCreams() {
     const now = new Date()
     const diff = now - this.lastCreatedAt
