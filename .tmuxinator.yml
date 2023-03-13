@@ -1,0 +1,6 @@
+project_name: softcream
+
+windows:
+  - editor: vi
+  - cli:
+  - server: live-server
