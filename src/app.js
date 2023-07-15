@@ -41,10 +41,31 @@ class App {
       return wall
     })
 
+    this.initInputs()
     this.resize()
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
+  }
+
+  initInputs() {
+    const inputDegree = window.document.querySelector("#degree")
+    if (inputDegree) {
+      inputDegree.value = this.angle
+      inputDegree.addEventListener("input", (e) => {
+        this.angle = e.target.value
+        this.nozzle.updateAngle(this.angle)
+      })
+    }
+
+    const inputResetDegree = window.document.querySelector("#reset-degree")
+    if (inputResetDegree) {
+      inputResetDegree.addEventListener("click", () => {
+        this.angle = 90
+        this.nozzle.updateAngle(this.angle)
+        if (inputDegree) inputDegree.value = this.angle
+      })
+    }
   }
 
   resize() {
