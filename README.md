@@ -4,6 +4,8 @@ repository for canvas practice.
 
 ![snapshot 20221212](docs/snapshot.gif)
 
+Demo: https://edunga1.github.io/canvas-softcream/
+
 # Run the server to development.
 
 `live-server` is a server has live reload capability.
