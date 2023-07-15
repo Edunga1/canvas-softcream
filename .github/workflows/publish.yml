@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
+      - name: Copy files
         run: mkdir dist && mv index.html src dist
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
