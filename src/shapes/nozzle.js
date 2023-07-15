@@ -5,6 +5,7 @@ import Shape from "./shape.js"
 export default class Nozzle extends Shape {
   constructor() {
     super()
+    this.sequence = 0
     this.capacity = 200
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
@@ -40,6 +41,7 @@ export default class Nozzle extends Shape {
     const cream = new Cream({
       pos: creamStartPos,
       radius: 10,
+      text: ++this.sequence,
     })
     if (this.lastCream != null) {
       this.lastCream.next = cream

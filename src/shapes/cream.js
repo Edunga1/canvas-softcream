@@ -6,6 +6,7 @@ export default class Cream extends Shape {
   constructor({
     pos = new Vector(0, 0),
     radius = 5,
+    text = "",
   } = {}) {
     super()
     this.circle = new Circle({
@@ -15,8 +16,9 @@ export default class Cream extends Shape {
     this.circle.elasticity = .01
     this.circle.velocity = new Vector(0, .5)
     this.circle.mass = 1
-    this.circle.friction = .15
+    this.circle.friction = .05
     this.exaggeration = 1
+    this.text = text
     /** @type Cream */
     this.next = null
   }
@@ -53,6 +55,15 @@ export default class Cream extends Shape {
     ctx.lineWidth = 1
     ctx.stroke()
     ctx.closePath()
+
+    // render text
+    ctx.font = "10px Arial"
+    ctx.fillStyle = "#BBB"
+    ctx.fillText(
+      this.text,
+      this.circle.pos.x,
+      this.circle.pos.y,
+    )
   }
 
   getCircle() {

@@ -6,6 +6,9 @@ import UnitPropertyPrinter from "./gui/unit-printer.js"
 
 class App {
   constructor() {
+    this.options = {
+      escape: false,
+    }
     this.canvas = document.createElement("canvas")
     /** @type CanvasRenderingContext2D */
     this.context = this.canvas.getContext("2d")
@@ -18,7 +21,7 @@ class App {
     this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this))
 
     this.nozzle = new Nozzle()
-    this.wall = new Wall()
+    this.walls = new Array(5).fill(0).map(() => new Wall())
     this.resize()
 
     /** @type Circle[] */
@@ -38,13 +41,12 @@ class App {
     this.canvas.width = this.width
     this.canvas.height = this.height
 
-    this.nozzle.resize(this.width / 2, 0)
-    this.wall.resize(
-      this.width / 4,
-      this.height / 2,
-      this.width * 3 / 4,
-      this.height / 2,
-    )
+    this.nozzle.resize(this.width/2, 0)
+    this.walls[0].resize(this.width/4, this.height/2, this.width*3/4, this.height/2)
+    this.walls[1].resize(0, 0, this.width, 0)
+    this.walls[2].resize(0, this.height, this.width, this.height)
+    this.walls[3].resize(0, 0, 0, this.height)
+    this.walls[4].resize(this.width, 0, this.width, this.height)
   }
 
   animate() {
@@ -59,7 +61,7 @@ class App {
 
   collectShapes() {
     this.circles = this.nozzle.getCircles()
-    this.lines = [this.wall.getLines()]
+    this.lines = this.walls.map(w => w.getLines())
   }
 
   updateCircles() {
@@ -80,6 +82,7 @@ class App {
   }
 
   removeOuted() {
+    if (!this.options.escape) return
     const outed = this.nozzle.creams.filter(c => c.circle.pos.y + c.circle.radius > this.height)
     outed.forEach(c => this.nozzle.removeCreamOf(c))
   }
@@ -91,7 +94,7 @@ class App {
     this.context.fill()
 
     this.nozzle.draw(this.context)
-    this.wall.draw(this.context)
+    this.walls.forEach(w => w.draw(this.context))
 
     this.unitPrinter.draw(this.context)
 
