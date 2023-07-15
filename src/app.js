@@ -23,16 +23,25 @@ class App {
     this.canvas.addEventListener("mousemove", this.onMouseMove.bind(this))
     this.canvas.addEventListener("mouseup", this.onMouseUp.bind(this))
 
-    this.nozzle = new Nozzle()
-    this.walls = new Array(5).fill(0).map(() => new Wall())
-    this.resize()
-
+    /** @type Shape[] */
+    this.shapes = []
     /** @type Circle[] */
     this.circles = []
     /** @type Line[] */
     this.lines = []
 
     this.unitPrinter = new UnitPropertyPrinter()
+
+    // main shapes
+    this.nozzle = new Nozzle()
+    this.addShape(this.nozzle)
+    this.walls = new Array(5).fill(0).map(() => {
+      const wall = new Wall()
+      this.addShape(wall)
+      return wall
+    })
+
+    this.resize()
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
     requestAnimationFrame(this.animate.bind(this))
@@ -58,22 +67,37 @@ class App {
     this.nozzle.updateAngle(this.angle)
   }
 
+  refreshPhysics() {
+    this.circles = this.shapes.map(s => s.getCircles()).flat()
+    this.lines = this.shapes.map(s => s.getLines()).flat()
+  }
+
+  addShape(...shapes) {
+    this.shapes.push(...shapes)
+    this.refreshPhysics()
+    shapes.forEach(s => {
+      s.createShape = this.addShape.bind(this)
+      s.removeShape = this.removeShape.bind(this)
+    })
+  }
+
+  removeShape(...shapes) {
+    this.shapes = this.shapes.filter(s => !shapes.includes(s))
+    this.refreshPhysics()
+  }
+
   animate() {
-    this.nozzle.update()
-
-    this.collectShapes()
-
-    this.updateCircles()
+    this.updateShapes()
+    this.updatePhysics()
     this.removeOuted()
     this.draw()
   }
 
-  collectShapes() {
-    this.circles = this.nozzle.getCircles()
-    this.lines = this.walls.map(w => w.getLines())
+  updateShapes() {
+    this.shapes.forEach(s => s.update())
   }
 
-  updateCircles() {
+  updatePhysics() {
     this.circles.forEach(c1 => {
       const targetLines = [...this.lines]
       targetLines.forEach(l => c1.collideLine(l))
