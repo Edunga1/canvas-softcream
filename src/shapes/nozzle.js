@@ -9,6 +9,7 @@ export default class Nozzle extends Shape {
     this.capacity = 200
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
+    this.angle = 90
     /** @type Cream[] */
     this.creams = []
     this.creamPeriod = 700
@@ -33,6 +34,10 @@ export default class Nozzle extends Shape {
     return this.creams.map(c => c.circle)
   }
 
+  calculateAcceleration() {
+    return new Vector(0, 1).rotate((this.angle - 90) * Math.PI / 180)
+  }
+
   addCream() {
     const creamStartPos = new Vector(
       this.pos.x + (Math.random() - 0.5) * 20,
@@ -43,6 +48,7 @@ export default class Nozzle extends Shape {
       radius: 10,
       text: ++this.sequence,
     })
+    cream.circle.acceleration = this.calculateAcceleration()
     if (this.lastCream != null) {
       this.lastCream.next = cream
     }
@@ -74,5 +80,12 @@ export default class Nozzle extends Shape {
   removeCreams() {
     if (this.creams.length < this.capacity) return
     this.removeCream()
+  }
+
+  updateAngle(angle) {
+    this.angle = angle
+    this.creams.forEach(c => {
+      c.circle.acceleration = this.calculateAcceleration()
+    })
   }
 }

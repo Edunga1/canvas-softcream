@@ -9,11 +9,14 @@ class App {
     this.options = {
       escape: false,
     }
+    this.angle = 90
+
     this.canvas = document.createElement("canvas")
     /** @type CanvasRenderingContext2D */
     this.context = this.canvas.getContext("2d")
     document.body.appendChild(this.canvas)
     window.addEventListener("resize", this.resize.bind(this))
+    window.addEventListener("deviceorientation", this.onDeviceOrientation.bind(this))
 
     // mouse events
     this.mouseMoveEnabled = true
@@ -49,6 +52,12 @@ class App {
     this.walls[4].resize(this.width, 0, this.width, this.height)
   }
 
+  onDeviceOrientation(e) {
+    if (90 - Math.abs(e.alpha) > 30 || 90 - Math.abs(e.gmma) > 30) return
+    this.angle = e.beta
+    this.nozzle.updateAngle(this.angle)
+  }
+
   animate() {
     this.nozzle.update()
 
@@ -67,15 +76,11 @@ class App {
   updateCircles() {
     this.circles.forEach(c1 => {
       const targetLines = [...this.lines]
-      targetLines.forEach(l => {
-        c1.collideLine(l)
-      })
+      targetLines.forEach(l => c1.collideLine(l))
 
       const targetsCircles = [...this.circles]
       targetsCircles.splice(targetsCircles.indexOf(c1), 1)
-      targetsCircles.forEach(c2 => {
-        c1.collideCircle(c2)
-      })
+      targetsCircles.forEach(c2 => c1.collideCircle(c2))
 
       c1.reposition()
     })
