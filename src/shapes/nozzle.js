@@ -6,13 +6,13 @@ export default class Nozzle extends Shape {
   constructor() {
     super()
     this.sequence = 0
-    this.capacity = 200
+    this.capacity = 500
     this.pos = new Vector()
     this.lastCreatedAt = new Date()
     this.angle = 90
     /** @type Cream[] */
     this.creams = []
-    this.creamPeriod = 700
+    this.creamPeriod = 300
     /** @type Cream */
     this.lastCream = null
   }
@@ -40,7 +40,7 @@ export default class Nozzle extends Shape {
 
   addCream() {
     const creamStartPos = new Vector(
-      this.pos.x + (Math.random() - 0.5) * 20,
+      this.pos.x + (Math.random() - 0.5) * 40,
       this.pos.y,
     )
     const cream = new Cream({
@@ -54,10 +54,11 @@ export default class Nozzle extends Shape {
     }
     this.creams.push(cream)
     this.lastCream = cream
+    this.createShape(cream)
   }
 
   removeCream(index = 0, count = 1) {
-    this.creams.splice(index, count)
+    this.removeShape(...this.creams.splice(index, count))
   }
 
   removeCreamOf(
@@ -78,7 +79,7 @@ export default class Nozzle extends Shape {
   }
 
   removeCreams() {
-    if (this.creams.length < this.capacity) return
+    if (this.creams.length <= this.capacity) return
     this.removeCream()
   }
 

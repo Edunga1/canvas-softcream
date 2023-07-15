@@ -1,11 +1,10 @@
 export default class Shape {
-  draw() {
-    throw new Error("Implement this.")
+  constructor() {
+    this.createShape = () => {}
+    this.removeShape = () => {}
   }
-  getCircles() {
-    throw new Error("Implement this.")
-  }
-  getLines() {
-    throw new Error("Implement this.")
-  }
+  update() {}
+  draw() {}
+  getCircles() { return [] }
+  getLines() { return [] }
 }

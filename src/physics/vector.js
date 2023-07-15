@@ -64,6 +64,6 @@ export default class Vector {
   }
 
   toString() {
-    return `${this.x}, ${this.y}`
+    return `${this.x.toFixed(2)}, ${this.y.toFixed(2)}`
   }
 }
