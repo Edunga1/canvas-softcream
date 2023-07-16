@@ -31,7 +31,7 @@ export default class Nozzle extends Shape {
   }
 
   calculateAcceleration() {
-    return new Vector(0, 1).rotate((this.angle - 90) * Math.PI / 180)
+    return new Vector(0, 1).rotate((90 - this.angle) * Math.PI / 180)
   }
 
   addCream() {
