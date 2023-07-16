@@ -26,10 +26,6 @@ export default class Nozzle extends Shape {
     this.removeCreams()
   }
 
-  draw(ctx) {
-    this.creams.forEach((x) => x.draw(ctx))
-  }
-
   getCircles() {
     return this.creams.map(c => c.circle)
   }
@@ -41,14 +37,14 @@ export default class Nozzle extends Shape {
   addCream() {
     const creamStartPos = new Vector(
       this.pos.x + (Math.random() - 0.5) * 40,
-      this.pos.y,
+      this.pos.y + Math.random() * 30,
     )
     const cream = new Cream({
       pos: creamStartPos,
       radius: 10,
       text: ++this.sequence,
     })
-    cream.circle.acceleration = this.calculateAcceleration()
+    cream.circle.direction = this.calculateAcceleration()
     if (this.lastCream != null) {
       this.lastCream.next = cream
     }
@@ -86,7 +82,7 @@ export default class Nozzle extends Shape {
   updateAngle(angle) {
     this.angle = angle
     this.creams.forEach(c => {
-      c.circle.acceleration = this.calculateAcceleration()
+      c.circle.direction = this.calculateAcceleration()
     })
   }
 }
