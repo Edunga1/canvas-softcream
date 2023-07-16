@@ -110,7 +110,7 @@ class App {
   }
 
   animate(time) {
-    this.delta = time - this.lastTime
+    this.delta = Math.min(time - this.lastTime, 1000/60)
     this.lastTime = time
     this.updateShapes()
     this.updatePhysics()
