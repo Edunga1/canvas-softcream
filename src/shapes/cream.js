@@ -23,6 +23,10 @@ export default class Cream extends Shape {
     this.next = null
   }
 
+  update(delta) {
+    this.circle.reposition(delta)
+  }
+
   collide(
     /** @type {Shape} */
     shape,

@@ -10,6 +10,8 @@ class App {
       escape: false,
     }
     this.angle = 90
+    this.lastTime = 0
+    this.delta = 0
 
     this.canvas = document.createElement("canvas")
     /** @type CanvasRenderingContext2D */
@@ -74,7 +76,7 @@ class App {
     this.canvas.width = this.width
     this.canvas.height = this.height
 
-    this.nozzle.resize(this.width/2, 0)
+    this.nozzle.resize(this.width/2, 20)
     this.walls[0].resize(this.width/4, this.height/2, this.width*3/4, this.height/2)
     this.walls[1].resize(0, 0, this.width, 0)
     this.walls[2].resize(0, this.height, this.width, this.height)
@@ -107,7 +109,9 @@ class App {
     this.refreshPhysics()
   }
 
-  animate() {
+  animate(time) {
+    this.delta = time - this.lastTime
+    this.lastTime = time
     this.updateShapes()
     this.updatePhysics()
     this.removeOuted()
@@ -115,7 +119,7 @@ class App {
   }
 
   updateShapes() {
-    this.shapes.forEach(s => s.update())
+    this.shapes.forEach(s => s.update(this.delta))
   }
 
   updatePhysics() {
@@ -126,8 +130,6 @@ class App {
       const targetsCircles = [...this.circles]
       targetsCircles.splice(targetsCircles.indexOf(c1), 1)
       targetsCircles.forEach(c2 => c1.collideCircle(c2))
-
-      c1.reposition()
     })
   }
 
@@ -138,13 +140,18 @@ class App {
   }
 
   draw() {
+    // clear canvas
     this.context.clearRect(0, 0, this.width, this.height)
     this.context.fillStyle = "#9BBBD4"
     this.context.fillRect(0, 0, this.width, this.height)
     this.context.fill()
 
-    this.nozzle.draw(this.context)
-    this.walls.forEach(w => w.draw(this.context))
+    // draw shapes
+    this.shapes.forEach(s => {
+      this.context.save()
+      s.draw(this.context)
+      this.context.restore()
+    })
 
     this.unitPrinter.draw(this.context)
 
