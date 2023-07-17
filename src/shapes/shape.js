@@ -3,6 +3,7 @@ export default class Shape {
     this.createShape = () => {}
     this.removeShape = () => {}
   }
+  resize() {}
   update() {}
   draw() {}
   getCircles() { return [] }

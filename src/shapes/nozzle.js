@@ -17,8 +17,8 @@ export default class Nozzle extends Shape {
     this.lastCream = null
   }
 
-  resize(x, y) {
-    this.pos = new Vector(x, y)
+  resize(ow, oh, nw, nh) {
+    this.pos = this.pos.scale(nw / ow, nh / oh)
   }
 
   update() {

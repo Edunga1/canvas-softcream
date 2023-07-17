@@ -23,6 +23,10 @@ export default class Cream extends Shape {
     this.next = null
   }
 
+  resize(ow, oh, nw, nh) {
+    this.circle.pos = this.circle.pos.scale(nw / ow, nh / oh)
+  }
+
   update(delta) {
     this.circle.reposition(delta)
   }

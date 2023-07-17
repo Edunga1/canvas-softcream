@@ -3,12 +3,12 @@ import Vector from "../physics/vector.js"
 import Shape from "./shape.js"
 
 export default class Wall extends Shape {
-  constructor({
+  constructor(
     x1 = 0,
     y1 = 0,
     x2 = 0,
     y2 = 0,
-  } = {}) {
+  ) {
     super()
     this.line = new Line({
       start: new Vector(x1, y1),
@@ -16,10 +16,10 @@ export default class Wall extends Shape {
     })
   }
 
-  resize(x1, y1, x2, y2) {
+  resize(ow, oh, nw, nh) {
     this.line.resize(
-      new Vector(x1, y1),
-      new Vector(x2, y2),
+      this.line.start.scale(nw / ow, nh / oh),
+      this.line.end.scale(nw / ow, nh / oh),
     )
   }
 

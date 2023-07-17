@@ -63,6 +63,15 @@ export default class Vector {
     )
   }
 
+  scale(
+    /** @type number */
+    sx,
+    /** @type number */
+    sy,
+  ) {
+    return new Vector(this.x * sx, this.y * sy)
+  }
+
   toString() {
     return `${this.x.toFixed(2)}, ${this.y.toFixed(2)}`
   }
