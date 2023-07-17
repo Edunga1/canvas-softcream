@@ -1,3 +1,4 @@
+import Shape from "./shapes/shape.js"
 import Nozzle from "./shapes/nozzle.js"
 import Wall from "./shapes/wall.js"
 import Vector from "./physics/vector.js"
@@ -12,6 +13,8 @@ class App {
     this.angle = 90
     this.lastTime = 0
     this.delta = 0
+    this.width = 100
+    this.height = 100
 
     this.canvas = document.createElement("canvas")
     /** @type CanvasRenderingContext2D */
@@ -36,17 +39,22 @@ class App {
 
     // main shapes
     this.nozzle = new Nozzle()
+    this.nozzle.pos = new Vector(this.width/2, this.height/20)
     this.addShape(this.nozzle)
-    this.walls = new Array(5).fill(0).map(() => {
-      const wall = new Wall()
-      this.addShape(wall)
-      return wall
-    })
+    this.walls = [
+      new Wall(this.width/4, this.height/2, this.width*3/4, this.height/2),
+      new Wall(0, 0, this.width, 0),
+      new Wall(0, this.height, this.width, this.height),
+      new Wall(0, 0, 0, this.height),
+      new Wall(this.width, 0, this.width, this.height),
+    ]
+    this.addShape(...this.walls)
 
     this.initInputs()
     this.resize()
 
     Array.from(Array(30)).forEach(() => this.nozzle.addCream())
+
     requestAnimationFrame(this.animate.bind(this))
   }
 
@@ -71,17 +79,16 @@ class App {
   }
 
   resize() {
+    const oldWidth = this.width
+    const oldHeight = this.height
     this.width = document.body.clientWidth
     this.height = document.body.clientHeight
     this.canvas.width = this.width
     this.canvas.height = this.height
 
-    this.nozzle.resize(this.width/2, 20)
-    this.walls[0].resize(this.width/4, this.height/2, this.width*3/4, this.height/2)
-    this.walls[1].resize(0, 0, this.width, 0)
-    this.walls[2].resize(0, this.height, this.width, this.height)
-    this.walls[3].resize(0, 0, 0, this.height)
-    this.walls[4].resize(this.width, 0, this.width, this.height)
+    this.shapes.forEach(s => {
+      s.resize(oldWidth, oldHeight, this.width, this.height)
+    })
   }
 
   onDeviceOrientation(e) {
