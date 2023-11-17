@@ -1,6 +1,7 @@
 import Cream from "./cream.js"
 import Vector from "../physics/vector.js"
 import Shape from "./shape.js"
+import Counter from "../utils/counter.js"
 
 export default class Nozzle extends Shape {
   constructor() {
@@ -8,11 +9,10 @@ export default class Nozzle extends Shape {
     this.sequence = 0
     this.capacity = 500
     this.pos = new Vector()
-    this.lastCreatedAt = new Date()
+    this.creamCreationCounter = new Counter(18, this.addCream.bind(this))
     this.angle = 90
     /** @type Cream[] */
     this.creams = []
-    this.creamPeriod = 300
     /** @type Cream */
     this.lastCream = null
   }
@@ -67,11 +67,7 @@ export default class Nozzle extends Shape {
   }
 
   createCreams() {
-    const now = new Date()
-    const diff = now - this.lastCreatedAt
-    if (diff < this.creamPeriod) return
-    this.lastCreatedAt = now
-    this.addCream()
+    this.creamCreationCounter.add()
   }
 
   removeCreams() {
