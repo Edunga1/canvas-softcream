@@ -1,4 +1,4 @@
-import Shape from "./shapes/shape.js"
+import Shape from "./shapes/shape.js" // eslint-disable-line no-unused-vars
 import Nozzle from "./shapes/nozzle.js"
 import Wall from "./shapes/wall.js"
 import Vector from "./physics/vector.js"
@@ -126,7 +126,7 @@ class App {
   }
 
   updateShapes() {
-    this.shapes.forEach(s => s.update(this.delta))
+    this.shapes.forEach(s => s.update())
   }
 
   updatePhysics() {
