@@ -43,6 +43,9 @@ class App {
     this.addShape(this.nozzle)
     this.walls = [
       new Wall(this.width/4, this.height/2, this.width*3/4, this.height/2),
+      new Wall(this.width/4, this.height/2, this.width/4-2, this.height/2-2),
+      new Wall(this.width*3/4, this.height/2, this.width*3/4+2, this.height/2-2),
+      // border walls
       new Wall(0, 0, this.width, 0),
       new Wall(0, this.height, this.width, this.height),
       new Wall(0, 0, 0, this.height),
@@ -52,9 +55,12 @@ class App {
 
     this.initInputs()
     this.resize()
+  }
 
-    Array.from(Array(30)).forEach(() => this.nozzle.addCream())
-
+  start(initialTick = 0) {
+    if (initialTick > 0) {
+      for (let i = 0; i < initialTick; i++) this.update()
+    }
     requestAnimationFrame(this.animate.bind(this))
   }
 
@@ -119,10 +125,15 @@ class App {
   animate(time) {
     this.delta = Math.min(time - this.lastTime, 1000/60)
     this.lastTime = time
+    this.update()
+    this.draw()
+    requestAnimationFrame(this.animate.bind(this))
+  }
+
+  update() {
     this.updateShapes()
     this.updatePhysics()
     this.removeOuted()
-    this.draw()
   }
 
   updateShapes() {
@@ -161,8 +172,6 @@ class App {
     })
 
     this.unitPrinter.draw(this.context)
-
-    requestAnimationFrame(this.animate.bind(this))
   }
 
   updateUnitPrinter(pos) {
@@ -193,5 +202,5 @@ class App {
 }
 
 window.onload = () => {
-  new App()
+  new App().start(300)
 }
