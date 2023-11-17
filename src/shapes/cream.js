@@ -27,8 +27,8 @@ export default class Cream extends Shape {
     this.circle.pos = this.circle.pos.scale(nw / ow, nh / oh)
   }
 
-  update(delta) {
-    this.circle.reposition(delta)
+  update() {
+    this.circle.reposition()
   }
 
   collide(

@@ -11,7 +11,7 @@ export default class Unit {
     this.elasticity = 1
     this.velocity = new Vector(0, 0)
     this.direction = new Vector(0, 1)
-    this.accelerationScalar = .03
+    this.accelerationScalar = .075
     this.mass = 50
   }
 
@@ -23,9 +23,9 @@ export default class Unit {
     return this.direction.unit().multiply(this.accelerationScalar)
   }
 
-  reposition(delta) {
+  reposition() {
     if (this.isFixed) return
-    this.velocity = this.velocity.add(this.acceleration.multiply(delta/4))
+    this.velocity = this.velocity.add(this.acceleration)
     this.velocity = this.velocity.multiply(1 - this.friction)
     this.pos = this.pos.add(this.velocity)
   }
