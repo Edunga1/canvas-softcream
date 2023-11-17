@@ -1,4 +1,4 @@
-import Unit from "../physics/unit.js"
+import Unit from "../physics/unit.js" // eslint-disable-line no-unused-vars
 
 export default class {
   constructor() {

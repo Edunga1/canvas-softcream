@@ -1,6 +1,6 @@
 import Unit from "../physics/unit.js"
 import Vector from "../physics/vector.js"
-import Line from "./line.js"
+import Line from "./line.js" // eslint-disable-line no-unused-vars
 
 export default class Circle extends Unit {
   constructor({
