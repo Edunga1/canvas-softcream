@@ -6,7 +6,6 @@ import Counter from "../utils/counter.js"
 export default class Nozzle extends Shape {
   constructor() {
     super()
-    this.sequence = 0
     this.capacity = 500
     this.pos = new Vector()
     this.creamCreationCounter = new Counter(18, this.addCream.bind(this))
@@ -42,7 +41,6 @@ export default class Nozzle extends Shape {
     const cream = new Cream({
       pos: creamStartPos,
       radius: 10,
-      text: ++this.sequence,
     })
     cream.circle.direction = this.calculateAcceleration()
     if (this.lastCream != null) {

@@ -42,9 +42,9 @@ class App {
     this.nozzle.pos = new Vector(this.width/2, this.height/20)
     this.addShape(this.nozzle)
     this.walls = [
-      new Wall(this.width/4, this.height/2, this.width*3/4, this.height/2),
-      new Wall(this.width/4, this.height/2, this.width/4-2, this.height/2-2),
-      new Wall(this.width*3/4, this.height/2, this.width*3/4+2, this.height/2-2),
+      new Wall(this.width/2-10, this.height/2, this.width/2+10, this.height/2),
+      new Wall(this.width/2-10, this.height/2, this.width/2-11, this.height/2-2),
+      new Wall(this.width/2+10, this.height/2, this.width/2+11, this.height/2-2),
       // border walls
       new Wall(0, 0, this.width, 0),
       new Wall(0, this.height, this.width, this.height),
@@ -202,5 +202,5 @@ class App {
 }
 
 window.onload = () => {
-  new App().start(300)
+  new App().start(500)
 }
