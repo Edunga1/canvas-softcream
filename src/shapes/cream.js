@@ -54,12 +54,13 @@ export default class Cream extends Shape {
     ctx.closePath()
     ctx.fill()
 
+    // render direction. it's white now
     const next = this.next?.circle ?? this.circle
     const direction = next.pos.subtr(this.circle.pos).unit().multiply(5)
     ctx.beginPath()
     ctx.moveTo(this.circle.pos.x, this.circle.pos.y)
     ctx.lineTo(this.circle.pos.x + direction.x, this.circle.pos.y + direction.y)
-    ctx.strokeStyle = "#CCC"
+    ctx.strokeStyle = "#FFF"
     ctx.lineWidth = 1
     ctx.stroke()
     ctx.closePath()

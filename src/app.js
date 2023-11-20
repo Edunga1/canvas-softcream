@@ -98,8 +98,7 @@ class App {
   }
 
   onDeviceOrientation(e) {
-    if (90 - Math.abs(e.alpha) > 30 || 90 - Math.abs(e.gmma) > 30) return
-    this.angle = e.beta
+    this.angle = e.alpha + 90
     this.nozzle.updateAngle(this.angle)
   }
 
