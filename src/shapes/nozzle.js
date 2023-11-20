@@ -8,7 +8,8 @@ export default class Nozzle extends Shape {
     super()
     this.capacity = 500
     this.pos = new Vector()
-    this.creamCreationCounter = new Counter(18, this.addCream.bind(this))
+    this.creamCreationCounter = new Counter(12, this.addCream.bind(this))
+    this.creamRadius = 4
     this.angle = 90
     /** @type Cream[] */
     this.creams = []
@@ -35,12 +36,12 @@ export default class Nozzle extends Shape {
 
   addCream() {
     const creamStartPos = new Vector(
-      this.pos.x + (Math.random() - 0.5) * 40,
-      this.pos.y + Math.random() * 30,
+      this.pos.x + (Math.random() - 0.5) * this.creamRadius * 5,
+      this.pos.y + 10,
     )
     const cream = new Cream({
       pos: creamStartPos,
-      radius: 10,
+      radius: this.creamRadius,
     })
     cream.circle.direction = this.calculateAcceleration()
     if (this.lastCream != null) {
