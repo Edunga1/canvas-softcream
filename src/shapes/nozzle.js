@@ -10,6 +10,10 @@ export default class Nozzle extends Shape {
     this.pos = new Vector()
     this.creamCreationCounter = new Counter(12, this.addCream.bind(this))
     this.creamRadius = 4
+    // SOX: Start Offset X
+    this.creamMaxSOX = this.creamRadius * 10
+    this.creamMinSOX = -(this.creamMaxSOX)
+    this.lastCreamSOX = 0
     this.angle = 90
     /** @type Cream[] */
     this.creams = []
@@ -35,14 +39,12 @@ export default class Nozzle extends Shape {
   }
 
   addCream() {
-    const creamStartPos = new Vector(
-      this.pos.x + (Math.random() - 0.5) * this.creamRadius * 5,
-      this.pos.y + 10,
-    )
+    const pos = this.getRandomizedPos()
     const cream = new Cream({
-      pos: creamStartPos,
+      pos: pos,
       radius: this.creamRadius,
     })
+    this.lastCreamSOX = pos.x - this.pos.x
     cream.circle.direction = this.calculateAcceleration()
     if (this.lastCream != null) {
       this.lastCream.next = cream
@@ -79,5 +81,19 @@ export default class Nozzle extends Shape {
     this.creams.forEach(c => {
       c.circle.direction = this.calculateAcceleration()
     })
+  }
+
+  getRandomizedPos() {
+    const movement = Math.floor(Math.random() * 2) * this.creamRadius
+    let sign = Math.floor(Math.random() * 2) * 2 - 1
+    if (this.lastCreamSOX + movement * sign > this.creamMaxSOX) {
+      sign = -1
+    } else if (this.lastCreamSOX + movement * sign < this.creamMinSOX) {
+      sign = 1
+    }
+    return new Vector(
+      this.pos.x + this.lastCreamSOX + movement * sign,
+      this.pos.y + 10,
+    )
   }
 }
