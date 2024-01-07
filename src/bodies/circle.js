@@ -55,6 +55,7 @@ export default class Circle extends Unit {
 
     this.penetrationResolutionCircle(circle)
     this.collideResolutionCircle(circle)
+    this.updateFixMatter()
   }
 
   intersectsLine(
