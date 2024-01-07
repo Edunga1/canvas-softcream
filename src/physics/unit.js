@@ -7,6 +7,7 @@ export default class Unit {
   }) {
     this.pos = pos
     this.isFixed = isFixed
+    this.fixMatter = 500
     this.friction = .05
     this.elasticity = 1
     this.velocity = new Vector(0, 0)
@@ -36,6 +37,12 @@ export default class Unit {
 
   collideLine() {
     throw new Error("Implement this.")
+  }
+
+  updateFixMatter() {
+    if (this.isFixed) return
+    this.fixMatter -= 1
+    if (this.fixMatter <= 0) this.isFixed = true
   }
 
   toString() {
