@@ -53,6 +53,7 @@ export default class Unit {
     velocity: ${this.velocity.toString()}
     acceleration: ${this.direction.toString()}
     accelerationScalar: ${this.accelerationScalar}
+    direction: ${this.direction.toString()}
     mass: ${this.mass}
     `
   }
